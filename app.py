@@ -53,3 +53,27 @@ for col in num_cols:
   sns.boxplot(x=df[col])
   plt.title(f"Boxplot of {col}")
   plt.show()
+
+# Removing outliers using IQR
+data_df = pd.DataFrame(data, columns=num_cols.tolist() + cat_cols.tolist())
+
+Q1 = data_df[num_cols].quantile(0.25)
+Q3 = data_df[num_cols].quantile(0.75)
+IQR = Q3 - Q1
+
+filtered_data = data_df[~((data_df[num_cols] < (Q1 - 1.5 * IQR)) | 
+                          (data_df[num_cols] > (Q3 + 1.5 * IQR))).any(axis=1)]
+
+# Showing new shape after outlier removal
+print("Original shape:", data_df.shape)
+print("After outlier removal:", filtered_data.shape)
+
+# modifying our target accordingly
+target = target[filtered_data.index]
+
+# Scaling the data
+
+scaler = StandardScaler()
+data = scaler.fit_transform(filtered_data)
+
+print(data)
