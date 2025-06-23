@@ -48,11 +48,11 @@ enc = OrdinalEncoder()
 data[cat_cols] = enc.fit_transform(data[cat_cols])
 
 # Visualising outliers using box plot
-for col in num_cols:
-  plt.figure(figsize=(6, 4))
-  sns.boxplot(x=df[col])
-  plt.title(f"Boxplot of {col}")
-  plt.show()
+# for col in num_cols:
+#   plt.figure(figsize=(6, 4))
+#   sns.boxplot(x=df[col])
+#   plt.title(f"Boxplot of {col}")
+#   plt.show()
 
 # Removing outliers using IQR
 data_df = pd.DataFrame(data, columns=num_cols.tolist() + cat_cols.tolist())
@@ -72,8 +72,48 @@ print("After outlier removal:", filtered_data.shape)
 target = target[filtered_data.index]
 
 # Scaling the data
-
 scaler = StandardScaler()
 data = scaler.fit_transform(filtered_data)
 
-print(data)
+# Spliting the data into train and test
+X_train, X_test, y_train, y_test = train_test_split(data,target, test_size= 0.3, random_state= 42)
+
+# Evaluating with Decision Tree
+model = DecisionTreeClassifier(criterion= 'entropy', max_depth= 4)
+model.fit(X_train, y_train)
+y_predict = model.predict(X_test)
+
+acc = accuracy_score(y_test, y_predict)
+print(f"\nAccuracy score when testing with Decision Tree = {acc*100} %")
+
+#Evaluating with RandomForest
+model = RandomForestClassifier(
+    criterion= 'entropy', 
+    max_depth=4, 
+    n_estimators=200, 
+    min_samples_split=4, 
+    min_samples_leaf=2,)
+
+model.fit(X_train, y_train)
+y_predict = model.predict(X_test)
+
+acc = accuracy_score(y_test, y_predict)
+print(f"\nAccuracy score when testing with Random Forest = {acc*100} %") # More generalised
+
+# Evaluating with multi layered Perceptron
+model = MLPClassifier(
+    activation= 'relu',
+    solver= 'adam',
+    max_iter= 500,
+    hidden_layer_sizes= (10,5),
+    random_state= 42,
+    verbose=True,           
+    n_iter_no_change=10,    
+)
+
+
+model.fit(X_train, y_train)
+y_predict = model.predict(X_test)
+
+acc = accuracy_score(y_test, y_predict)
+print(f"\nAccuracy score when testing with MLP = {acc*100} %") #Even More generalised
