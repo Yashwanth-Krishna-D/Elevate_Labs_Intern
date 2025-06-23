@@ -1,0 +1,7 @@
+# Added requirements file
+ipykernel #for notebook
+numpy
+pandas
+matplotlib
+seaborn
+scikit-learn
