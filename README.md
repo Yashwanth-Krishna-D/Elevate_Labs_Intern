@@ -1,67 +1,90 @@
-# Elevate_Labs_Intern
-This is a repository created to store works and skills gained through internship
+---
 
-## 🚢 Titanic Survival Prediction – ML Classification
+# 🚢 Titanic Survival Prediction – Machine Learning Classification
 
-This project aims to predict passenger survival on the Titanic using machine learning models. The dataset is preprocessed, cleaned, and then tested across three models to evaluate performance.
+This project is part of the **Elevate Labs Internship**. It aims to predict passenger survival aboard the Titanic using classic machine learning classification algorithms. The code is modular and includes functions for preprocessing, visualization, and model evaluation.
 
-### 📂 Dataset
+---
 
-* **Source**: `Titanic-Dataset.csv`
-* **Target Variable**: `Survived` (0 = No, 1 = Yes)
+## 📂 Dataset
 
-### 🔧 Preprocessing Steps
+* **File**: `Titanic-Dataset.csv`
+* **Target Feature**: `Survived` (0 = Did not survive, 1 = Survived)
 
-1. **Column Selection**: Removed irrelevant columns (`PassengerId`, `Name`, `Ticket`)
-2. **Missing Value Imputation**:
+---
 
-   * **Numerical**: Mean
-   * **Categorical**: Most Frequent
-3. **Encoding**: Used `OrdinalEncoder` for categorical features
-4. **Outlier Removal**: Applied IQR method to numerical columns
-5. **Scaling**: Standardized numerical data using `StandardScaler`
+## 🔧 Preprocessing Pipeline
 
-### 🧠 Models Evaluated
+The data undergoes several preprocessing steps to ensure quality and model-readiness:
 
-1. **Decision Tree Classifier**
+1. **Column Dropping**:
 
-   * Criterion: Entropy
-   * Max Depth: 4
+   * Removed: `PassengerId`, `Name`, `Ticket` (non-informative)
 
-2. **Random Forest Classifier**
+2. **Missing Value Handling**:
 
-   * Criterion: Entropy
-   * Max Depth: 4
-   * Estimators: 200
-   * Min Samples Split: 4
-   * Min Samples Leaf: 2
+   * **Numerical**: Imputed using **mean**
+   * **Categorical**: Imputed using **most frequent** value
 
-3. **MLPClassifier (Neural Network)**
+3. **Encoding**:
 
-   * Activation: ReLU
-   * Solver: Adam
-   * Hidden Layers: (10, 5)
-   * Max Iterations: 500
+   * Used `OrdinalEncoder` for categorical variables
 
-### 📊 Accuracy Scores
+4. **Outlier Removal**:
 
-| Model         | Accuracy (%) |
-| ------------- | ------------ |
-| Decision Tree | \~ 79.33     |
-| Random Forest | \~ 82.67     |
-| MLPClassifier | \~ 82.00     |
+   * Applied **IQR-based filtering** on numerical features
 
+5. **Feature Scaling**:
 
-### 🗃 Requirements
+   * Applied `StandardScaler` for numerical normalization
+
+---
+
+## 📊 Exploratory Data Analysis (EDA)
+
+The following EDA tools are available (optional):
+
+* Box plots for numerical outlier detection
+* Histograms with KDE for distribution analysis
+* Pair plots with `hue='Survived'`
+* Correlation heatmap
+
+---
+
+## 🧠 Models Evaluated
+
+| Model              | Key Parameters                                                                                 |
+| ------------------ | ---------------------------------------------------------------------------------------------- |
+| Decision Tree      | Criterion: `entropy`, Max Depth: 4                                                             |
+| Random Forest      | Criterion: `entropy`, Max Depth: 4, Estimators: 200, Min Samples Split: 4, Min Samples Leaf: 2 |
+| MLPClassifier (NN) | Activation: `relu`, Solver: `adam`, Hidden Layers: (10, 5), Max Iter: 500                      |
+
+---
+
+## 📈 Accuracy Results (approx.)
+
+| Model          | Accuracy (%) |
+| -------------- | ------------ |
+| Decision Tree  | \~79.33      |
+| Random Forest  | \~82.00      |
+| MLP Classifier | \~82.67      |
+
+---
+
+## 📎 Notes
+
+* Outlier removal noticeably improved performance and generalization.
+* Random Forest outperformed single-tree methods in both accuracy and stability.
+* MLP Classifier was effective even on a moderately sized dataset, though sensitive to scaling.
+
+---
+
+## 🛠 Requirements
+
+Install the following Python libraries:
 
 ```bash
 pip install numpy pandas matplotlib seaborn scikit-learn
 ```
 
-### 📎 Notes
-
-* Outlier removal helped improve generalization.
-* RandomForest is more robust than a single DecisionTree.
-* MLP is suitable for larger dataset and is more generalised
 ---
-
