@@ -47,9 +47,9 @@ This project aims to predict passenger survival on the Titanic using machine lea
 
 | Model         | Accuracy (%) |
 | ------------- | ------------ |
-| Decision Tree | \~ 81.03     |
-| Random Forest | \~ 80.49     |
-| MLPClassifier | \~ 78.73     |
+| Decision Tree | \~ 79.33     |
+| Random Forest | \~ 82.67     |
+| MLPClassifier | \~ 82.00     |
 
 
 ### 🗃 Requirements
