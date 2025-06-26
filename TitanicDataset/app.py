@@ -106,6 +106,9 @@ def scale_data(data):
     scaled = scaler.fit_transform(data)
     return pd.DataFrame(scaled, columns=data.columns, index=data.index)
 
+
+# Task 2 - 24/June/25
+
 # Model Evaluation
 def evaluate_model(model, model_name):
     model.fit(X_train, y_train)
@@ -116,7 +119,7 @@ def evaluate_model(model, model_name):
     plot_confusion_matrix(y_test, y_pred, title=f"Confusion Matrix - {model_name}")
 
 # Load Dataset
-df = pd.read_csv("Titanic-Dataset.csv")
+df = pd.read_csv("TitanicDataset/Titanic-Dataset.csv")
 
 # Separate target and features
 target = df["Survived"]
