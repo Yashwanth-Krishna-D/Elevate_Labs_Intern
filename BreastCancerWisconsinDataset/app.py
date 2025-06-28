@@ -12,7 +12,10 @@ from sklearn.metrics import accuracy_score, classification_report, confusion_mat
 
 
 from sklearn.linear_model import LogisticRegression
-
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.svm import SVC
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import StackingClassifier
 
 # Load dataset
 data_set = pd.read_csv("BreastCancerWisconsinDataset/BreastCancerDataset.csv")
@@ -44,13 +47,13 @@ target = target.map({'M':1, 'B':0})
 # Split the data into train and test
 X_train, X_test, y_train, y_test = train_test_split(data, target, test_size=0.3, random_state=42)
 
-# Model Evaluation
+# Model Evaluation using Logistic Regression
 model = LogisticRegression()
 model.fit(X_train, y_train)
 y_predict = model.predict(X_test)
 
-print(f"Accuracy score of Prediction = {accuracy_score(y_test, y_predict)*100} %")
-print(f"\n\n Classification Report \n\n {classification_report(y_test,y_predict)}")
+print(f"\n\nAccuracy score of Prediction = {accuracy_score(y_test, y_predict)*100} %")
+print(f"Classification Report \n\n {classification_report(y_test,y_predict)}")
 
 # View Model Prediction vs Actural Data
 cm = confusion_matrix(y_test, y_predict)
@@ -61,9 +64,49 @@ plt.xlabel("Predicted")
 plt.ylabel("Actual")
 plt.title("Confusion Matrix - Logistic Regression")
 plt.tight_layout()
-plt.show()
+# plt.show()
 
-# Show ROC Curve:
+# Model Evaluation using Decision Trees
+model = DecisionTreeClassifier(criterion = "entropy", max_depth = 4)
+model.fit(X_train, y_train)
+y_predict = model.predict(X_test)
+
+print(f"\n\nAccuracy score of Prediction = {accuracy_score(y_test, y_predict)*100} %")
+print(f"Classification Report \n\n {classification_report(y_test,y_predict)}")
+
+# Model Evaluation using Support Vector Classification
+model = SVC(kernel = "rbf")
+model.fit(X_train, y_train)
+y_predict = model.predict(X_test)
+
+print(f"\n\nAccuracy score of Prediction = {accuracy_score(y_test, y_predict)*100} %")
+print(f"Classification Report \n\n {classification_report(y_test,y_predict)}")
+
+# Model Evaluation using Random Forest
+model = RandomForestClassifier(criterion = "entropy", max_depth = 4)
+model.fit(X_train, y_train)
+y_predict = model.predict(X_test)
+
+print(f"\n\nAccuracy score of Prediction = {accuracy_score(y_test, y_predict)*100} %")
+print(f"Classification Report \n\n {classification_report(y_test,y_predict)}")
 
 
+# Ensembling basic models
+base_learners = [
+            ('lr', LogisticRegression(max_iter = 1000)),
+            ('svc', SVC(kernel = 'rbf', probability = True))
+]
 
+meta_learner = LogisticRegression()
+
+stacked_model = StackingClassifier(
+            estimators = base_learners,
+            final_estimator = meta_learner,
+            cv =5
+)
+
+stacked_model.fit(X_train, y_train)
+y_predict = stacked_model.predict(X_test)
+
+print(f"\n\nAccuracy score of Prediction = {accuracy_score(y_test, y_predict)*100} %")
+print(f"Classification Report \n\n {classification_report(y_test,y_predict)}")
